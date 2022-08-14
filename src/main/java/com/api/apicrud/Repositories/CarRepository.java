@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.api.apicrud.Entities.CarEntity;
 
 @Repository
-public interface CarRepository extends JpaRepository<CarEntity, Long> {
+public interface CarRepository extends JpaRepository<CarEntity, Integer> {
     
 }
