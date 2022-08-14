@@ -41,4 +41,9 @@ public class CarController {
     public CarEntity getById(@RequestParam int id){
         return carRepository.findById(id).get();
     }
+
+    @PostMapping(value = "updateCar")
+    public CarEntity updateCar(@RequestBody CarEntity param){
+        return carRepository.save(param);
+    }
 }
