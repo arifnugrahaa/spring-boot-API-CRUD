@@ -46,4 +46,11 @@ public class CarController {
     public CarEntity updateCar(@RequestBody CarEntity param){
         return carRepository.save(param);
     }
+
+    @GetMapping(value = "deleteCar")
+    public List <CarEntity> deleteCar(@RequestParam int id){
+        carRepository.deleteById(id);
+        List<CarEntity> carList = carRepository.findAll();
+        return carList;
+    }
 }
