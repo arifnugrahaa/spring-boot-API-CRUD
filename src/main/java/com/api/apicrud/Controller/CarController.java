@@ -14,6 +14,7 @@ import com.api.apicrud.Entities.CarEntity;
 import com.api.apicrud.Repositories.CarRepository;
 import com.api.apicrud.Response.CommonResponse;
 import com.api.apicrud.Response.CommonResponseGenerator;
+import com.api.apicrud.Services.CarService;
 
 @RestController
 @RequestMapping( value = "/car")
@@ -27,6 +28,9 @@ public class CarController {
     @Autowired
     CommonResponseGenerator commonResponseGenerator;
 
+    @Autowired
+    CarService carService;
+
     @GetMapping(value = "checkAPI")
     public CommonResponse <String> checkAPI(){
         return commonResponseGenerator.successResponse("Hello World", "Success check API");
@@ -34,29 +38,34 @@ public class CarController {
 
     @PostMapping(value = "addNewCar")
     public CommonResponse <CarEntity> addNewCar(@RequestBody CarEntity param){
-        carRepository.save(param);
-        return commonResponseGenerator.successResponse(param, "Success Add New Car");
+        CarEntity car = carService.addCar(param);
+        return commonResponseGenerator.successResponse(car, "Success Add New Car");
     }
 
     @GetMapping(value = "getAllCar")
     public CommonResponse <List<CarEntity>> getAllCar(){
-        return commonResponseGenerator.successResponse(carRepository.findAll(), "Success get all data");
+
+        List<CarEntity> carList = carService.getAllCar();
+        
+        return commonResponseGenerator.successResponse(carList, "Success get all data");
     }
 
     @GetMapping(value = "getById")
     public CommonResponse <CarEntity> getById(@RequestParam int id){
-        return commonResponseGenerator.successResponse(carRepository.findById(id).get(), "Success get by id: "+id);
+        CarEntity car = carService.getCarById(id);
+        return commonResponseGenerator.successResponse(car, "Success get by id: "+id);
     }
 
     @PostMapping(value = "updateCar")
     public CommonResponse <CarEntity> updateCar(@RequestBody CarEntity param){
-        return commonResponseGenerator.successResponse(carRepository.save(param), "Success update data id: "+param.getId());
+        CarEntity car = carService.updateCar(param);
+        return commonResponseGenerator.successResponse(car, "Success update data id: "+param.getId());
     }
 
     @GetMapping(value = "deleteCar")
     public CommonResponse <List <CarEntity>> deleteCar(@RequestParam int id){
-        carRepository.deleteById(id);
-        List<CarEntity> carList = carRepository.findAll();
+        carService.deleteCar(id);
+        List<CarEntity> carList = carService.getAllCar();
         return commonResponseGenerator.successResponse(carList, "Success delete car by id: "+id);
     }
 }
