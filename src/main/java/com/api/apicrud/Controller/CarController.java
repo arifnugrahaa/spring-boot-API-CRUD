@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.apicrud.Entities.CarEntity;
+import com.api.apicrud.Entities.CarImage;
+import com.api.apicrud.Wrappers.CarImageWrapper;
 import com.api.apicrud.Repositories.CarRepository;
 import com.api.apicrud.Response.CommonResponse;
 import com.api.apicrud.Response.CommonResponseGenerator;
@@ -90,6 +92,17 @@ public class CarController {
             carService.deleteCar(id);
             List<CarEntity> carList = carService.getAllCar();
             return commonResponseGenerator.successResponse(carList, "Success delete car by id: "+id);
+        } catch (Exception e) {
+            //TODO: handle exception
+            return commonResponseGenerator.failedResponse(e.getMessage());
+        }
+    }
+
+    @PostMapping(value = "upload-car")
+    public CommonResponse<CarImage> upload(@RequestBody CarImageWrapper param){
+        try {
+            CarImage car = carService.upload(param);
+            return commonResponseGenerator.successResponse(car, "Success upload image");
         } catch (Exception e) {
             //TODO: handle exception
             return commonResponseGenerator.failedResponse(e.getMessage());
