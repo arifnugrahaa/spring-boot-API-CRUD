@@ -7,9 +7,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import com.api.apicrud.Entities.CarEntity;
+import com.api.apicrud.Audit.AuditTableBase;
 
 @Entity
-public class CarImage {
+public class CarImage extends AuditTableBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
